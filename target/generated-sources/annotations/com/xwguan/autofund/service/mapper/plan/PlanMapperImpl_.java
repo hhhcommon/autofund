@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2018-04-11T23:39:44+0800",
-    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 3.13.0.v20170516-1929, environment: Java 1.8.0_151 (Oracle Corporation)"
+    date = "2019-01-30T10:49:11+0800",
+    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 1.1.0.v20150122-0735, environment: Java 1.8.0_151 (Oracle Corporation)"
 )
 @Component
 @Qualifier("delegate")
@@ -22,16 +22,16 @@ public class PlanMapperImpl_ implements PlanMapper {
     private PositionMapper positionMapper;
 
     @Override
-    public PlanDto toPlanDto(Plan plan) {
+    public LatestPlanDto toLatestPlanDto(Plan plan) {
         if ( plan == null ) {
             return null;
         }
 
-        PlanDto planDto = new PlanDto();
+        LatestPlanDto latestPlanDto = new LatestPlanDto();
 
-        planDto.setPositions( positionMapper.toPositionDtoList( plan.getPositionList() ) );
+        latestPlanDto.setLatestPositions( positionMapper.toLatestPositionDtoList( plan.getPositionList() ) );
 
-        return planDto;
+        return latestPlanDto;
     }
 
     @Override
@@ -45,23 +45,6 @@ public class PlanMapperImpl_ implements PlanMapper {
         plan.setPositionList( positionMapper.toPositionList( planDto.getPositions() ) );
 
         return plan;
-    }
-
-    @Override
-    public PlanInfoDto toPlanInfoDto(Plan plan) {
-        if ( plan == null ) {
-            return null;
-        }
-
-        PlanInfoDto planInfoDto = new PlanInfoDto();
-
-        planInfoDto.setActivated( plan.getActivated() );
-        planInfoDto.setExecutionMode( plan.getExecutionMode() );
-        planInfoDto.setId( plan.getId() );
-        planInfoDto.setName( plan.getName() );
-        planInfoDto.setUserId( plan.getUserId() );
-
-        return planInfoDto;
     }
 
     @Override
@@ -82,6 +65,36 @@ public class PlanMapperImpl_ implements PlanMapper {
     }
 
     @Override
+    public PlanDto toPlanDto(Plan plan) {
+        if ( plan == null ) {
+            return null;
+        }
+
+        PlanDto planDto = new PlanDto();
+
+        planDto.setPositions( positionMapper.toPositionDtoList( plan.getPositionList() ) );
+
+        return planDto;
+    }
+
+    @Override
+    public PlanInfoDto toPlanInfoDto(Plan plan) {
+        if ( plan == null ) {
+            return null;
+        }
+
+        PlanInfoDto planInfoDto = new PlanInfoDto();
+
+        planInfoDto.setActivated( plan.getActivated() );
+        planInfoDto.setExecutionMode( plan.getExecutionMode() );
+        planInfoDto.setId( plan.getId() );
+        planInfoDto.setName( plan.getName() );
+        planInfoDto.setUserId( plan.getUserId() );
+
+        return planInfoDto;
+    }
+
+    @Override
     public void updatePlan(Plan plan, PlanInfoDto planInfoDto) {
         if ( planInfoDto == null ) {
             return;
@@ -92,18 +105,5 @@ public class PlanMapperImpl_ implements PlanMapper {
         plan.setId( planInfoDto.getId() );
         plan.setName( planInfoDto.getName() );
         plan.setUserId( planInfoDto.getUserId() );
-    }
-
-    @Override
-    public LatestPlanDto toLatestPlanDto(Plan plan) {
-        if ( plan == null ) {
-            return null;
-        }
-
-        LatestPlanDto latestPlanDto = new LatestPlanDto();
-
-        latestPlanDto.setLatestPositions( positionMapper.toLatestPositionDtoList( plan.getPositionList() ) );
-
-        return latestPlanDto;
     }
 }

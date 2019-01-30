@@ -36,9 +36,9 @@ public class TacticController {
         try {
             List<Tactic> tactics = tacticService.listAllTacticTemplate();
             List<TacticDto> tacticDtos = tacticsMapper.toTacticDtoList(tactics);
-            return new Result<>(true, tacticDtos);
+            return new Result(true, tacticDtos);
         } catch (Exception e) {
-            return new Result<>(false, "获取策略模板异常");
+            return new Result(false, "获取策略模板异常");
         }
     }
 
@@ -67,11 +67,11 @@ public class TacticController {
         try {
             Tactic tactic = tacticService.getTacticTemplate(templateCode);
             TacticDto tacticDto = tacticsMapper.toTacticDto(tactic);
-            return new Result<>(true, tacticDto);
+            return new Result(true, tacticDto);
         } catch (TacticTemplateException e) {
-            return new Result<>(false, "找不到对应的策略模板");
+            return new Result(false, "找不到对应的策略模板");
         } catch (Exception e) {
-            return new Result<>(false, "获取策略模板异常");
+            return new Result(false, "获取策略模板异常");
         }
 
     }
@@ -104,10 +104,10 @@ public class TacticController {
         try {
             int cntDelTactic = tacticService.deleteTactic(tacticId, tacticType);
             return cntDelTactic > 0
-                ? new Result<>(true, "成功删除")
-                : new Result<>(false, "不存在或已被删除");
+                ? new Result(true, "成功删除")
+                : new Result(false, "不存在或已被删除");
         } catch (Exception e) {
-            return new Result<>(false, "删除策略失败");
+            return new Result(false, "删除策略失败");
         }
     }
 
@@ -132,12 +132,12 @@ public class TacticController {
             Tactic tactic = tacticsMapper.toTactic(tacticDtoJson, tacticType);
             int cntUpdTactic = tacticService.updateTactic(tactic);
             return cntUpdTactic > 0
-                ? new Result<>(true, "成功更新")
-                : new Result<>(false, "策略不存在");
+                ? new Result(true, "成功更新")
+                : new Result(false, "策略不存在");
         } catch (IOException | TacticTypeException e) {
-            return new Result<>(false, "解析json失败");
+            return new Result(false, "解析json失败");
         } catch (Exception e) {
-            return new Result<>(false, "删除策略失败");
+            return new Result(false, "删除策略失败");
         }
     }
 
@@ -170,10 +170,10 @@ public class TacticController {
         try {
             int cntSetActivated = tacticService.setActivated(tacticId, tacticType, activated);
             return cntSetActivated > 0
-                ? new Result<>(true, "成功修改激活状态")
-                : new Result<>(false, "策略不存在或已被删除");
+                ? new Result(true, "成功修改激活状态")
+                : new Result(false, "策略不存在或已被删除");
         } catch (Exception e) {
-            return new Result<>(false, "修改激活状态失败");
+            return new Result(false, "修改激活状态失败");
         }
     }
 

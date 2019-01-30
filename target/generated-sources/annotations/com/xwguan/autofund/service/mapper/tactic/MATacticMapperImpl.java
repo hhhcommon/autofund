@@ -12,11 +12,35 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2018-04-11T13:56:02+0800",
-    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 3.13.0.v20170516-1929, environment: Java 1.8.0_151 (Oracle Corporation)"
+    date = "2019-01-30T10:49:10+0800",
+    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 1.1.0.v20150122-0735, environment: Java 1.8.0_151 (Oracle Corporation)"
 )
 @Component
 public class MATacticMapperImpl implements MATacticMapper {
+
+    @Override
+    public MATactic toTactic(MATacticDto tacticDto) {
+        if ( tacticDto == null ) {
+            return null;
+        }
+
+        MATactic mATactic = new MATactic();
+
+        mATactic.setActivated( tacticDto.getActivated() );
+        mATactic.setId( tacticDto.getId() );
+        mATactic.setPeriodCondition( tacticDto.getPeriodCondition() );
+        mATactic.setPlanId( tacticDto.getPlanId() );
+        List<Rule> list = tacticDto.getRuleList();
+        if ( list != null ) {
+            mATactic.setRuleList( new ArrayList<Rule>( list ) );
+        }
+        else {
+            mATactic.setRuleList( null );
+        }
+        mATactic.setMa( tacticDto.getMa() );
+
+        return mATactic;
+    }
 
     @Override
     public MATacticDto toTacticDto(MATactic tactic, TacticTypeEnum tacticType) {
@@ -27,10 +51,10 @@ public class MATacticMapperImpl implements MATacticMapper {
         MATacticDto mATacticDto = new MATacticDto();
 
         if ( tactic != null ) {
-            mATacticDto.setId( tactic.getId() );
-            mATacticDto.setPlanId( tactic.getPlanId() );
-            mATacticDto.setPeriodCondition( tactic.getPeriodCondition() );
             mATacticDto.setActivated( tactic.getActivated() );
+            mATacticDto.setId( tactic.getId() );
+            mATacticDto.setPeriodCondition( tactic.getPeriodCondition() );
+            mATacticDto.setPlanId( tactic.getPlanId() );
             List<Rule> list = tactic.getRuleList();
             if ( list != null ) {
                 mATacticDto.setRuleList( new ArrayList<Rule>( list ) );
@@ -42,35 +66,11 @@ public class MATacticMapperImpl implements MATacticMapper {
         }
         if ( tacticType != null ) {
             mATacticDto.setName( tacticType.getTacticName() );
-            mATacticDto.setTypeCode( tacticType.getTypeCode() );
             mATacticDto.setPlanTactic( tacticType.isPlanTactic() );
+            mATacticDto.setTypeCode( tacticType.getTypeCode() );
         }
 
         return mATacticDto;
-    }
-
-    @Override
-    public MATactic toTactic(MATacticDto tacticDto) {
-        if ( tacticDto == null ) {
-            return null;
-        }
-
-        MATactic mATactic = new MATactic();
-
-        mATactic.setId( tacticDto.getId() );
-        mATactic.setPlanId( tacticDto.getPlanId() );
-        mATactic.setPeriodCondition( tacticDto.getPeriodCondition() );
-        mATactic.setActivated( tacticDto.getActivated() );
-        List<Rule> list = tacticDto.getRuleList();
-        if ( list != null ) {
-            mATactic.setRuleList( new ArrayList<Rule>( list ) );
-        }
-        else {
-            mATactic.setRuleList( null );
-        }
-        mATactic.setMa( tacticDto.getMa() );
-
-        return mATactic;
     }
 
     @Override
@@ -86,8 +86,8 @@ public class MATacticMapperImpl implements MATacticMapper {
             activatedMATactic.setMa( tactic.getMa() );
         }
         if ( rule != null ) {
-            activatedMATactic.setRangeCondition( rule.getRangeCondition() );
             activatedMATactic.setOperation( rule.getOperation() );
+            activatedMATactic.setRangeCondition( rule.getRangeCondition() );
         }
         if ( indexValue != null ) {
             activatedMATactic.setIndexValue( indexValue );

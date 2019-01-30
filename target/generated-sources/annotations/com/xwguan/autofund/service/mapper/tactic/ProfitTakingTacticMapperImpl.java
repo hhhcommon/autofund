@@ -13,11 +13,34 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2018-04-11T13:56:03+0800",
-    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 3.13.0.v20170516-1929, environment: Java 1.8.0_151 (Oracle Corporation)"
+    date = "2019-01-30T10:49:11+0800",
+    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 1.1.0.v20150122-0735, environment: Java 1.8.0_151 (Oracle Corporation)"
 )
 @Component
 public class ProfitTakingTacticMapperImpl implements ProfitTakingTacticMapper {
+
+    @Override
+    public ProfitTakingTactic toTactic(ProfitTakingTacticDto tacticDto) {
+        if ( tacticDto == null ) {
+            return null;
+        }
+
+        ProfitTakingTactic profitTakingTactic = new ProfitTakingTactic();
+
+        profitTakingTactic.setActivated( tacticDto.getActivated() );
+        profitTakingTactic.setId( tacticDto.getId() );
+        profitTakingTactic.setPeriodCondition( tacticDto.getPeriodCondition() );
+        profitTakingTactic.setPlanId( tacticDto.getPlanId() );
+        List<Rule> list = tacticDto.getRuleList();
+        if ( list != null ) {
+            profitTakingTactic.setRuleList( new ArrayList<Rule>( list ) );
+        }
+        else {
+            profitTakingTactic.setRuleList( null );
+        }
+
+        return profitTakingTactic;
+    }
 
     @Override
     public ProfitTakingTacticDto toTacticDto(ProfitTakingTactic tactic, TacticTypeEnum tacticType) {
@@ -28,10 +51,10 @@ public class ProfitTakingTacticMapperImpl implements ProfitTakingTacticMapper {
         ProfitTakingTacticDto profitTakingTacticDto = new ProfitTakingTacticDto();
 
         if ( tactic != null ) {
-            profitTakingTacticDto.setId( tactic.getId() );
-            profitTakingTacticDto.setPlanId( tactic.getPlanId() );
-            profitTakingTacticDto.setPeriodCondition( tactic.getPeriodCondition() );
             profitTakingTacticDto.setActivated( tactic.getActivated() );
+            profitTakingTacticDto.setId( tactic.getId() );
+            profitTakingTacticDto.setPeriodCondition( tactic.getPeriodCondition() );
+            profitTakingTacticDto.setPlanId( tactic.getPlanId() );
             List<Rule> list = tactic.getRuleList();
             if ( list != null ) {
                 profitTakingTacticDto.setRuleList( new ArrayList<Rule>( list ) );
@@ -42,34 +65,11 @@ public class ProfitTakingTacticMapperImpl implements ProfitTakingTacticMapper {
         }
         if ( tacticType != null ) {
             profitTakingTacticDto.setName( tacticType.getTacticName() );
-            profitTakingTacticDto.setTypeCode( tacticType.getTypeCode() );
             profitTakingTacticDto.setPlanTactic( tacticType.isPlanTactic() );
+            profitTakingTacticDto.setTypeCode( tacticType.getTypeCode() );
         }
 
         return profitTakingTacticDto;
-    }
-
-    @Override
-    public ProfitTakingTactic toTactic(ProfitTakingTacticDto tacticDto) {
-        if ( tacticDto == null ) {
-            return null;
-        }
-
-        ProfitTakingTactic profitTakingTactic = new ProfitTakingTactic();
-
-        profitTakingTactic.setId( tacticDto.getId() );
-        profitTakingTactic.setPlanId( tacticDto.getPlanId() );
-        profitTakingTactic.setPeriodCondition( tacticDto.getPeriodCondition() );
-        profitTakingTactic.setActivated( tacticDto.getActivated() );
-        List<Rule> list = tacticDto.getRuleList();
-        if ( list != null ) {
-            profitTakingTactic.setRuleList( new ArrayList<Rule>( list ) );
-        }
-        else {
-            profitTakingTactic.setRuleList( null );
-        }
-
-        return profitTakingTactic;
     }
 
     @Override
@@ -84,8 +84,8 @@ public class ProfitTakingTacticMapperImpl implements ProfitTakingTacticMapper {
             activatedProfitTakingTactic.setPeriodCondition( profitTakingTactic.getPeriodCondition() );
         }
         if ( rule != null ) {
-            activatedProfitTakingTactic.setRangeCondition( rule.getRangeCondition() );
             activatedProfitTakingTactic.setOperation( rule.getOperation() );
+            activatedProfitTakingTactic.setRangeCondition( rule.getRangeCondition() );
         }
         if ( assetHistory != null ) {
             activatedProfitTakingTactic.setPosIncomeRatePct( assetHistory.getPosIncomeRatePct() );

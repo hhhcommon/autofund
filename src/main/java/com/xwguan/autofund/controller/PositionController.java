@@ -51,14 +51,14 @@ public class PositionController {
         try {
             Position position = positionService.getPositionTemplate(fundCode, refIndexSymbol);
             PositionDto positionDto = positionMapper.toPositionDto(position);
-            return new Result<>(true, positionDto);
+            return new Result(true, positionDto);
         } catch (InvalidFundCodeException e) {
-            return new Result<>(false, "无效的基金代码: " + fundCode);
+            return new Result(false, "无效的基金代码: " + fundCode);
         } catch (InvalidTickerSymbolException e) {
-            return new Result<>(false, "无效的指数代码: " + refIndexSymbol);
+            return new Result(false, "无效的指数代码: " + refIndexSymbol);
         } catch (Exception e) {
             logger.error(e.toString() + ", " + e.getMessage());
-            return new Result<>(false, "更新失败");
+            return new Result(false, "更新失败");
         }
     }
 
@@ -79,13 +79,13 @@ public class PositionController {
         try {
             int cntUpd = positionService.changeRefIndex(postionId, refIndexSymbol);
             return cntUpd > 0
-                ? new Result<>(true, "成功更新参考指数")
-                : new Result<>(false, "更新失败, id对应的持仓不存在");
+                ? new Result(true, "成功更新参考指数")
+                : new Result(false, "更新失败, id对应的持仓不存在");
         } catch (InvalidTickerSymbolException e) {
-            return new Result<>(false, "无效的指数代码: " + refIndexSymbol);
+            return new Result(false, "无效的指数代码: " + refIndexSymbol);
         } catch (Exception e) {
             logger.error(e.toString() + ", " + e.getMessage());
-            return new Result<>(false, "更新失败");
+            return new Result(false, "更新失败");
         }
     }
 
@@ -103,17 +103,17 @@ public class PositionController {
     @ResponseBody
     public Result<String> insertPosition(@Valid @ModelAttribute PositionDto positionDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return new Result<>(false, "存在无效字段");
+            return new Result(false, "存在无效字段");
         }
         Position position = positionMapper.toPosition(positionDto);
         try {
             int cntIns = positionService.insertPosition(position);
             return cntIns > 0
-                ? new Result<>(true, "成功插入")
-                : new Result<>(false, "插入失败, 已存在基金代码为" + "" + "的持仓");
+                ? new Result(true, "成功插入")
+                : new Result(false, "插入失败, 已存在基金代码为" + "" + "的持仓");
         } catch (Exception e) {
             logger.error(e.toString() + ", " + e.getMessage());
-            return new Result<>(false, "插入失败");
+            return new Result(false, "插入失败");
         }
     }
     

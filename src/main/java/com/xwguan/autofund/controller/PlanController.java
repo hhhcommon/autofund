@@ -105,13 +105,13 @@ public class PlanController {
         Result<PlanBackTestResult> result;
         try {
             PlanBackTestResult backTestResult = backTestService.backTest(planId, startDate, endDate);
-            result = new Result<>(true, backTestResult);
+            result = new Result(true, backTestResult);
         } catch (BackTestServiceException e) {
             logger.error("BackTest Error", e);
-            result = new Result<>(false, e.getMessage());
+            result = new Result(false, e.getMessage());
         } catch (Exception e) {
             logger.error(e.toString() + ", " + e.getMessage());
-            result = new Result<>(false, "回测错误");
+            result = new Result(false, "回测错误");
         }
         model.addAttribute(result); // 或者是不在这里初始化数据, 只返回页面, 由前端ajax初始化? TODO
         return "user/backTest";
@@ -140,13 +140,13 @@ public class PlanController {
         Result<PlanBackTestResult> result;
         try {
             PlanBackTestResult backTestResult = backTestService.backTest(planId, startDate, endDate);
-            result = new Result<>(true, backTestResult);
+            result = new Result(true, backTestResult);
         } catch (BackTestServiceException e) {
             logger.error("BackTest Error", e);
-            result = new Result<>(false, e.getMessage());
+            result = new Result(false, e.getMessage());
         } catch (Exception e) {
             logger.error(e.toString() + ", " + e.getMessage());
-            result = new Result<>(false, "回测错误");
+            result = new Result(false, "回测错误");
         }
         return result;
     }
@@ -172,15 +172,15 @@ public class PlanController {
         try {
             PlanTradeScheme tradeScheme = planService.getTradeScheme(planId, tradeDate);
             tradeScheme.setPlan(null); // TODO use dto
-            return new Result<>(true, tradeScheme);
+            return new Result(true, tradeScheme);
         } catch (NotTradeDayException e) {
-            return new Result<>(false, "该日期不是交易日");
+            return new Result(false, "该日期不是交易日");
         } catch (FailGettingRealTimeDataException e) {
             logger.error(e.getMessage(), e);
-            return new Result<>(false, "无法获取实时值, 请重试");
+            return new Result(false, "无法获取实时值, 请重试");
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return new Result<>(false, "策略获取错误");
+            return new Result(false, "策略获取错误");
         }
     }
 
@@ -206,12 +206,12 @@ public class PlanController {
         try {
             Plan plan = planService.getTemplate(templateCode);
             PlanDto planDto = planMapper.toPlanDto(plan);
-            return new Result<>(true, planDto);
+            return new Result(true, planDto);
         } catch (UnknownTemplateCodeException e) {
-            return new Result<>(false, "未知模板代码");
+            return new Result(false, "未知模板代码");
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return new Result<>(false, "无法获取计划模板");
+            return new Result(false, "无法获取计划模板");
         }
     }
 
@@ -230,12 +230,12 @@ public class PlanController {
         try {
             Plan plan = planService.cleanCopyAndResetPlan(planId, LocalDate.now());
             PlanDto planDto = planMapper.toPlanDto(plan);
-            return new Result<>(true, planDto);
+            return new Result(true, planDto);
         } catch (InvalidParamException e) {
-            return new Result<>(false, "被复制的计划为空");
+            return new Result(false, "被复制的计划为空");
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return new Result<>(false, "复制计划失败");
+            return new Result(false, "复制计划失败");
         }
     }
 
@@ -254,13 +254,13 @@ public class PlanController {
         try {
             Plan plan = planService.getFullPlanByPlanId(planId, HistoryScopeEnum.NONE);
             if (plan == null) {
-                return new Result<>(false, "id为" + planId + "的计划不存在");
+                return new Result(false, "id为" + planId + "的计划不存在");
             }
             PlanDto planDto = planMapper.toPlanDto(plan);
-            return new Result<>(true, planDto);
+            return new Result(true, planDto);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return new Result<>(false, "获取计划失败");
+            return new Result(false, "获取计划失败");
         }
     }
 
@@ -279,13 +279,13 @@ public class PlanController {
         try {
             Plan plan = planService.getFullPlanByPlanId(planId, HistoryScopeEnum.LATEST);
             if (plan == null) {
-                return new Result<>(false, "id为" + planId + "的计划不存在");
+                return new Result(false, "id为" + planId + "的计划不存在");
             }
             LatestPlanDto latestPlanDto = planMapper.toLatestPlanDto(plan);
-            return new Result<>(true, latestPlanDto);
+            return new Result(true, latestPlanDto);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return new Result<>(false, "获取计划失败");
+            return new Result(false, "获取计划失败");
         }
     }
 
@@ -305,10 +305,10 @@ public class PlanController {
             List<Position> positions = positionService.listByPlanId(planId, true, null);
             System.out.println(positions); // TODO
             List<LatestPositionDto> latestPositionDtoList = positionMapper.toLatestPositionDtoList(positions);
-            return new Result<>(true, latestPositionDtoList);
+            return new Result(true, latestPositionDtoList);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return new Result<>(false, "获取持仓失败");
+            return new Result(false, "获取持仓失败");
         }
     }
 
@@ -327,10 +327,10 @@ public class PlanController {
         try {
             List<PlanTactic> planTactics = tacticService.listPlanTacticByPlanId(planId);
             List<TacticDto> tacticDtoList = tacticsMapper.toTacticDtoList(planTactics);
-            return new Result<>(true, tacticDtoList);
+            return new Result(true, tacticDtoList);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return new Result<>(false, "获取计划策略失败");
+            return new Result(false, "获取计划策略失败");
         }
     }
 
@@ -349,10 +349,10 @@ public class PlanController {
         try {
             List<PositionTactic> positionTactics = tacticService.listPositionTacticByPlanId(planId);
             List<TacticDto> tacticDtoList = tacticsMapper.toTacticDtoList(positionTactics);
-            return new Result<>(true, tacticDtoList);
+            return new Result(true, tacticDtoList);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return new Result<>(false, "获取持仓策略失败");
+            return new Result(false, "获取持仓策略失败");
         }
     }
 
@@ -372,10 +372,10 @@ public class PlanController {
             Account account = accountService.getAccount(planId, AccountOwnerTypeEnum.PLAN, HistoryScopeEnum.LATEST,
                 null);
             LatestAccountDto latestAccountDto = accountMapper.toLatestAccountDto(account);
-            return new Result<>(true, latestAccountDto);
+            return new Result(true, latestAccountDto);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return new Result<>(false, "获取账户失败");
+            return new Result(false, "获取账户失败");
         }
     }
 
@@ -387,12 +387,12 @@ public class PlanController {
         try {
             int cntInsPlan = planService.insertPlan(plan);
             if (cntInsPlan > 0) {
-                return new Result<>(true, "新建计划成功");
+                return new Result(true, "新建计划成功");
             }
-            return new Result<>(false, "新建计划失败, 请重试");
+            return new Result(false, "新建计划失败, 请重试");
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return new Result<>(false, "新建计划失败, 请重试");
+            return new Result(false, "新建计划失败, 请重试");
         }
     }
 
@@ -404,11 +404,11 @@ public class PlanController {
         try {
             int cntUpdPlan = planService.updatePlan(plan);
             return cntUpdPlan > 0
-                ? new Result<>(true, "更新计划成功")
-                : new Result<>(false, "计划不存在");
+                ? new Result(true, "更新计划成功")
+                : new Result(false, "计划不存在");
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return new Result<>(false, "更新计划成功, 请重试");
+            return new Result(false, "更新计划成功, 请重试");
         }
     }
 
@@ -428,13 +428,13 @@ public class PlanController {
         try {
             int cntDelPlan = planService.deletePlan(planId);
             return cntDelPlan > 0
-                ? new Result<>(true, "删除计划成功")
-                : new Result<>(false, "不存在或已被删除");
+                ? new Result(true, "删除计划成功")
+                : new Result(false, "不存在或已被删除");
         } catch (DeleteAccountException e) {
-            return new Result<>(false, "计划内还有资产, 无法删除");
+            return new Result(false, "计划内还有资产, 无法删除");
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return new Result<>(false, "删除计划失败, 请重试");
+            return new Result(false, "删除计划失败, 请重试");
         }
     }
 
@@ -456,15 +456,15 @@ public class PlanController {
             position.setPlanId(planId);
             int cntIns = positionService.insertPosition(position);
             return cntIns > 0
-                ? new Result<>(true, "成功插入")
-                : new Result<>(false, "插入失败, 已存在基金代码为" + "" + "的持仓");
+                ? new Result(true, "成功插入")
+                : new Result(false, "插入失败, 已存在基金代码为" + "" + "的持仓");
         } catch (InvalidFundCodeException e) {
-            return new Result<>(false, "无效的基金代码");
+            return new Result(false, "无效的基金代码");
         } catch (InvalidTickerSymbolException e) {
-            return new Result<>(false, "无效的指数代码");
+            return new Result(false, "无效的指数代码");
         } catch (Exception e) {
             logger.error(e.toString() + ", " + e.getMessage());
-            return new Result<>(false, "插入失败");
+            return new Result(false, "插入失败");
         }
     }
 

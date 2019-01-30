@@ -12,11 +12,35 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2018-04-11T13:56:03+0800",
-    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 3.13.0.v20170516-1929, environment: Java 1.8.0_151 (Oracle Corporation)"
+    date = "2019-01-30T10:49:10+0800",
+    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 1.1.0.v20150122-0735, environment: Java 1.8.0_151 (Oracle Corporation)"
 )
 @Component
 public class NavChangeTacticMapperImpl implements NavChangeTacticMapper {
+
+    @Override
+    public NavChangeTactic toTactic(NavChangeTacticDto tacticDto) {
+        if ( tacticDto == null ) {
+            return null;
+        }
+
+        NavChangeTactic navChangeTactic = new NavChangeTactic();
+
+        navChangeTactic.setActivated( tacticDto.getActivated() );
+        navChangeTactic.setId( tacticDto.getId() );
+        navChangeTactic.setPeriodCondition( tacticDto.getPeriodCondition() );
+        navChangeTactic.setPlanId( tacticDto.getPlanId() );
+        List<Rule> list = tacticDto.getRuleList();
+        if ( list != null ) {
+            navChangeTactic.setRuleList( new ArrayList<Rule>( list ) );
+        }
+        else {
+            navChangeTactic.setRuleList( null );
+        }
+        navChangeTactic.setInTradeDays( tacticDto.getInTradeDays() );
+
+        return navChangeTactic;
+    }
 
     @Override
     public NavChangeTacticDto toTacticDto(NavChangeTactic tactic, TacticTypeEnum tacticType) {
@@ -27,10 +51,10 @@ public class NavChangeTacticMapperImpl implements NavChangeTacticMapper {
         NavChangeTacticDto navChangeTacticDto = new NavChangeTacticDto();
 
         if ( tactic != null ) {
-            navChangeTacticDto.setId( tactic.getId() );
-            navChangeTacticDto.setPlanId( tactic.getPlanId() );
-            navChangeTacticDto.setPeriodCondition( tactic.getPeriodCondition() );
             navChangeTacticDto.setActivated( tactic.getActivated() );
+            navChangeTacticDto.setId( tactic.getId() );
+            navChangeTacticDto.setPeriodCondition( tactic.getPeriodCondition() );
+            navChangeTacticDto.setPlanId( tactic.getPlanId() );
             List<Rule> list = tactic.getRuleList();
             if ( list != null ) {
                 navChangeTacticDto.setRuleList( new ArrayList<Rule>( list ) );
@@ -42,35 +66,11 @@ public class NavChangeTacticMapperImpl implements NavChangeTacticMapper {
         }
         if ( tacticType != null ) {
             navChangeTacticDto.setName( tacticType.getTacticName() );
-            navChangeTacticDto.setTypeCode( tacticType.getTypeCode() );
             navChangeTacticDto.setPlanTactic( tacticType.isPlanTactic() );
+            navChangeTacticDto.setTypeCode( tacticType.getTypeCode() );
         }
 
         return navChangeTacticDto;
-    }
-
-    @Override
-    public NavChangeTactic toTactic(NavChangeTacticDto tacticDto) {
-        if ( tacticDto == null ) {
-            return null;
-        }
-
-        NavChangeTactic navChangeTactic = new NavChangeTactic();
-
-        navChangeTactic.setId( tacticDto.getId() );
-        navChangeTactic.setPlanId( tacticDto.getPlanId() );
-        navChangeTactic.setPeriodCondition( tacticDto.getPeriodCondition() );
-        navChangeTactic.setActivated( tacticDto.getActivated() );
-        List<Rule> list = tacticDto.getRuleList();
-        if ( list != null ) {
-            navChangeTactic.setRuleList( new ArrayList<Rule>( list ) );
-        }
-        else {
-            navChangeTactic.setRuleList( null );
-        }
-        navChangeTactic.setInTradeDays( tacticDto.getInTradeDays() );
-
-        return navChangeTactic;
     }
 
     @Override
@@ -86,8 +86,8 @@ public class NavChangeTacticMapperImpl implements NavChangeTacticMapper {
             activatedNavChangeTactic.setInTradeDays( tactic.getInTradeDays() );
         }
         if ( rule != null ) {
-            activatedNavChangeTactic.setRangeCondition( rule.getRangeCondition() );
             activatedNavChangeTactic.setOperation( rule.getOperation() );
+            activatedNavChangeTactic.setRangeCondition( rule.getRangeCondition() );
         }
         if ( startValue != null ) {
             activatedNavChangeTactic.setStartValue( startValue );

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2018-04-11T13:56:03+0800",
-    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 3.13.0.v20170516-1929, environment: Java 1.8.0_151 (Oracle Corporation)"
+    date = "2019-01-30T10:49:10+0800",
+    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 1.1.0.v20150122-0735, environment: Java 1.8.0_151 (Oracle Corporation)"
 )
 @Component
 public class CleanCopyPositionMapperImpl implements CleanCopyPositionMapper {
@@ -27,9 +27,9 @@ public class CleanCopyPositionMapperImpl implements CleanCopyPositionMapper {
 
         Position position = new Position();
 
+        position.setAccount( cleanCopyAccountMapper.cleanCopy( source.getAccount() ) );
         position.setFundId( source.getFundId() );
         position.setRefIndexId( source.getRefIndexId() );
-        position.setAccount( cleanCopyAccountMapper.cleanCopy( source.getAccount() ) );
 
         position.setPlanId( Long.parseLong( "-1" ) );
         position.setId( Long.parseLong( "-1" ) );

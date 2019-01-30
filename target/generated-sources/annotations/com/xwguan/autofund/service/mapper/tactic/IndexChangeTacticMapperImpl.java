@@ -12,11 +12,35 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2018-04-11T13:56:03+0800",
-    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 3.13.0.v20170516-1929, environment: Java 1.8.0_151 (Oracle Corporation)"
+    date = "2019-01-30T10:49:10+0800",
+    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 1.1.0.v20150122-0735, environment: Java 1.8.0_151 (Oracle Corporation)"
 )
 @Component
 public class IndexChangeTacticMapperImpl implements IndexChangeTacticMapper {
+
+    @Override
+    public IndexChangeTactic toTactic(IndexChangeTacticDto tacticDto) {
+        if ( tacticDto == null ) {
+            return null;
+        }
+
+        IndexChangeTactic indexChangeTactic = new IndexChangeTactic();
+
+        indexChangeTactic.setActivated( tacticDto.getActivated() );
+        indexChangeTactic.setId( tacticDto.getId() );
+        indexChangeTactic.setPeriodCondition( tacticDto.getPeriodCondition() );
+        indexChangeTactic.setPlanId( tacticDto.getPlanId() );
+        List<Rule> list = tacticDto.getRuleList();
+        if ( list != null ) {
+            indexChangeTactic.setRuleList( new ArrayList<Rule>( list ) );
+        }
+        else {
+            indexChangeTactic.setRuleList( null );
+        }
+        indexChangeTactic.setInTradeDays( tacticDto.getInTradeDays() );
+
+        return indexChangeTactic;
+    }
 
     @Override
     public IndexChangeTacticDto toTacticDto(IndexChangeTactic tactic, TacticTypeEnum tacticType) {
@@ -27,10 +51,10 @@ public class IndexChangeTacticMapperImpl implements IndexChangeTacticMapper {
         IndexChangeTacticDto indexChangeTacticDto = new IndexChangeTacticDto();
 
         if ( tactic != null ) {
-            indexChangeTacticDto.setId( tactic.getId() );
-            indexChangeTacticDto.setPlanId( tactic.getPlanId() );
-            indexChangeTacticDto.setPeriodCondition( tactic.getPeriodCondition() );
             indexChangeTacticDto.setActivated( tactic.getActivated() );
+            indexChangeTacticDto.setId( tactic.getId() );
+            indexChangeTacticDto.setPeriodCondition( tactic.getPeriodCondition() );
+            indexChangeTacticDto.setPlanId( tactic.getPlanId() );
             List<Rule> list = tactic.getRuleList();
             if ( list != null ) {
                 indexChangeTacticDto.setRuleList( new ArrayList<Rule>( list ) );
@@ -42,35 +66,11 @@ public class IndexChangeTacticMapperImpl implements IndexChangeTacticMapper {
         }
         if ( tacticType != null ) {
             indexChangeTacticDto.setName( tacticType.getTacticName() );
-            indexChangeTacticDto.setTypeCode( tacticType.getTypeCode() );
             indexChangeTacticDto.setPlanTactic( tacticType.isPlanTactic() );
+            indexChangeTacticDto.setTypeCode( tacticType.getTypeCode() );
         }
 
         return indexChangeTacticDto;
-    }
-
-    @Override
-    public IndexChangeTactic toTactic(IndexChangeTacticDto tacticDto) {
-        if ( tacticDto == null ) {
-            return null;
-        }
-
-        IndexChangeTactic indexChangeTactic = new IndexChangeTactic();
-
-        indexChangeTactic.setId( tacticDto.getId() );
-        indexChangeTactic.setPlanId( tacticDto.getPlanId() );
-        indexChangeTactic.setPeriodCondition( tacticDto.getPeriodCondition() );
-        indexChangeTactic.setActivated( tacticDto.getActivated() );
-        List<Rule> list = tacticDto.getRuleList();
-        if ( list != null ) {
-            indexChangeTactic.setRuleList( new ArrayList<Rule>( list ) );
-        }
-        else {
-            indexChangeTactic.setRuleList( null );
-        }
-        indexChangeTactic.setInTradeDays( tacticDto.getInTradeDays() );
-
-        return indexChangeTactic;
     }
 
     @Override
@@ -86,8 +86,8 @@ public class IndexChangeTacticMapperImpl implements IndexChangeTacticMapper {
             activatedIndexChangeTactic.setInTradeDays( tactic.getInTradeDays() );
         }
         if ( rule != null ) {
-            activatedIndexChangeTactic.setRangeCondition( rule.getRangeCondition() );
             activatedIndexChangeTactic.setOperation( rule.getOperation() );
+            activatedIndexChangeTactic.setRangeCondition( rule.getRangeCondition() );
         }
         if ( startValue != null ) {
             activatedIndexChangeTactic.setStartValue( startValue );

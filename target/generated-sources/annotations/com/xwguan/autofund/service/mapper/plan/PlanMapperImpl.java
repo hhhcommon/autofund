@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2018-04-11T23:39:44+0800",
-    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 3.13.0.v20170516-1929, environment: Java 1.8.0_151 (Oracle Corporation)"
+    date = "2019-01-30T10:49:11+0800",
+    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 1.1.0.v20150122-0735, environment: Java 1.8.0_151 (Oracle Corporation)"
 )
 @Component
 @Primary
@@ -22,13 +22,13 @@ public class PlanMapperImpl extends PlanMapperDecorator implements PlanMapper {
     private PlanMapper delegate;
 
     @Override
-    public PlanInfoDto toPlanInfoDto(Plan plan)  {
-        return delegate.toPlanInfoDto( plan );
+    public Plan toPlan(PlanInfoDto planInfoDto)  {
+        return delegate.toPlan( planInfoDto );
     }
 
     @Override
-    public Plan toPlan(PlanInfoDto planInfoDto)  {
-        return delegate.toPlan( planInfoDto );
+    public PlanInfoDto toPlanInfoDto(Plan plan)  {
+        return delegate.toPlanInfoDto( plan );
     }
 
     @Override

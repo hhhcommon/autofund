@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2018-04-11T13:56:02+0800",
-    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 3.13.0.v20170516-1929, environment: Java 1.8.0_151 (Oracle Corporation)"
+    date = "2019-01-30T10:49:11+0800",
+    comments = "version: 1.2.0.Final, compiler: Eclipse JDT (IDE) 1.1.0.v20150122-0735, environment: Java 1.8.0_151 (Oracle Corporation)"
 )
 @Component
 public class CleanCopyIndexChangeTacticMapperImpl implements CleanCopyIndexChangeTacticMapper {
@@ -56,8 +56,8 @@ public class CleanCopyIndexChangeTacticMapperImpl implements CleanCopyIndexChang
             activatedIndexChangeTactic.setInTradeDays( tactic.getInTradeDays() );
         }
         if ( rule != null ) {
-            activatedIndexChangeTactic.setRangeCondition( rule.getRangeCondition() );
             activatedIndexChangeTactic.setOperation( rule.getOperation() );
+            activatedIndexChangeTactic.setRangeCondition( rule.getRangeCondition() );
         }
         if ( startValue != null ) {
             activatedIndexChangeTactic.setStartValue( startValue );
@@ -73,6 +73,24 @@ public class CleanCopyIndexChangeTacticMapperImpl implements CleanCopyIndexChang
     }
 
     @Override
+    public IndexChangeTactic toTactic(IndexChangeTacticDto tacticDto) {
+        if ( tacticDto == null ) {
+            return null;
+        }
+
+        IndexChangeTactic indexChangeTactic = new IndexChangeTactic();
+
+        indexChangeTactic.setActivated( tacticDto.getActivated() );
+        indexChangeTactic.setId( tacticDto.getId() );
+        indexChangeTactic.setPeriodCondition( cleanCopyPeriodConditionMapper.cleanCopy( tacticDto.getPeriodCondition() ) );
+        indexChangeTactic.setPlanId( tacticDto.getPlanId() );
+        indexChangeTactic.setRuleList( cleanCopyRuleMapper.cleanCopyList( tacticDto.getRuleList() ) );
+        indexChangeTactic.setInTradeDays( tacticDto.getInTradeDays() );
+
+        return indexChangeTactic;
+    }
+
+    @Override
     public IndexChangeTacticDto toTacticDto(IndexChangeTactic tactic, TacticTypeEnum tacticType) {
         if ( tactic == null && tacticType == null ) {
             return null;
@@ -81,37 +99,19 @@ public class CleanCopyIndexChangeTacticMapperImpl implements CleanCopyIndexChang
         IndexChangeTacticDto indexChangeTacticDto = new IndexChangeTacticDto();
 
         if ( tactic != null ) {
-            indexChangeTacticDto.setId( tactic.getId() );
-            indexChangeTacticDto.setPlanId( tactic.getPlanId() );
-            indexChangeTacticDto.setPeriodCondition( cleanCopyPeriodConditionMapper.cleanCopy( tactic.getPeriodCondition() ) );
             indexChangeTacticDto.setActivated( tactic.getActivated() );
+            indexChangeTacticDto.setId( tactic.getId() );
+            indexChangeTacticDto.setPeriodCondition( cleanCopyPeriodConditionMapper.cleanCopy( tactic.getPeriodCondition() ) );
+            indexChangeTacticDto.setPlanId( tactic.getPlanId() );
             indexChangeTacticDto.setRuleList( cleanCopyRuleMapper.cleanCopyList( tactic.getRuleList() ) );
             indexChangeTacticDto.setInTradeDays( tactic.getInTradeDays() );
         }
         if ( tacticType != null ) {
             indexChangeTacticDto.setName( tacticType.getTacticName() );
-            indexChangeTacticDto.setTypeCode( tacticType.getTypeCode() );
             indexChangeTacticDto.setPlanTactic( tacticType.isPlanTactic() );
+            indexChangeTacticDto.setTypeCode( tacticType.getTypeCode() );
         }
 
         return indexChangeTacticDto;
-    }
-
-    @Override
-    public IndexChangeTactic toTactic(IndexChangeTacticDto tacticDto) {
-        if ( tacticDto == null ) {
-            return null;
-        }
-
-        IndexChangeTactic indexChangeTactic = new IndexChangeTactic();
-
-        indexChangeTactic.setId( tacticDto.getId() );
-        indexChangeTactic.setPlanId( tacticDto.getPlanId() );
-        indexChangeTactic.setPeriodCondition( cleanCopyPeriodConditionMapper.cleanCopy( tacticDto.getPeriodCondition() ) );
-        indexChangeTactic.setActivated( tacticDto.getActivated() );
-        indexChangeTactic.setRuleList( cleanCopyRuleMapper.cleanCopyList( tacticDto.getRuleList() ) );
-        indexChangeTactic.setInTradeDays( tacticDto.getInTradeDays() );
-
-        return indexChangeTactic;
     }
 }
